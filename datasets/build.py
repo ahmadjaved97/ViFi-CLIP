@@ -191,7 +191,7 @@ class VideoDataset(BaseDataset):
         video_infos = []
         with open(self.ann_file, 'r') as fin:
             for line in fin:
-                line_split = line.strip().split()
+                line_split = line.strip().split(",")
                 if self.multi_class:
                     assert self.num_classes is not None
                     filename, label = line_split[0], line_split[1]
@@ -268,7 +268,7 @@ def build_dataloader(logger, config):
         
     
     train_data = VideoDataset(ann_file=config.DATA.TRAIN_FILE, data_prefix=config.DATA.ROOT,
-                              labels_file=config.DATA.LABEL_LIST, pipeline=train_pipeline)
+                              labels_file=config.DATA.LABEL_LIST, pipeline=train_pipeline, multi_class=True, num_classes=config.DATA.NUM_CLASSES)
     num_tasks = dist.get_world_size()
     global_rank = dist.get_rank()
     sampler_train = torch.utils.data.DistributedSampler(
