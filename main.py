@@ -281,7 +281,7 @@ def validate_multilabel(val_loader, text_labels, model, config):
                     image_input = image_input.half()
                 
                 
-                output = model(image_input, text_inputs)
+                output = model(image_input)
                 
                 mean = output.mean(dim=1, keepdim=True)
                 std = output.std(dim=1, keepdim=True) + 1e-6  # Prevent divide by zero
